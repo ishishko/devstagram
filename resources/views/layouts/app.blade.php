@@ -3,9 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{{asset('css/app.css')}}">
+        {{-- <link rel="stylesheet" href="{{asset('css/app.css')}}"> --}}
         <title>DevStagram - @yield('titulo')</title>
-        <script src="{{ asset('js/app.js')}}"></script>
+        {{-- <script src="{{ asset('js/app.js')}}"></script> --}}
          @vite('resources/css/app.css')
 
         
@@ -15,10 +15,26 @@
             <div class=" container mx-auto flex justify-between items-center">
                 <h1 class=" text-3xl font-black">DevStagram</h1>
                 
-                <nav class=" flex gap-2 items-center">
-                    <a href="#" class=" font-bold uppercase text-gray-600 text-sm">Login</a>
-                    <a href="{{ route('register') }}" class=" font-bold uppercase text-gray-600 text-sm">Crear Cuenta</a>
-                </nav>
+                @guest
+                    <nav class=" flex gap-2 items-center">
+                        <a href="{{route('login')}}" class=" font-bold uppercase text-gray-600 text-sm mr-4">Login</a>
+                        <a href="{{ route('register') }}" class=" font-bold uppercase text-gray-600 text-sm">Crear Cuenta</a>
+                    </nav>
+                @endguest
+                @auth
+                    <nav class=" flex gap-2 items-center">
+                        <a href="" class=" font-bold uppercase text-gray-600 text-sm mr-4">
+                        Hola: 
+                        <span class=" font-normal">
+                        {{auth()->user()->username}}
+                        </span></a>
+                        <form action="{{route('logout')}}" method="post">
+                            @csrf
+                            <button type="submit" class=" font-bold uppercase text-gray-600 text-sm">Cerrar Sesion</button>
+                        </form>
+                    </nav>
+                @endauth
+
             </div>
         </header>
         <main class=" container mx-auto mt-10">
